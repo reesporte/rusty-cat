@@ -27,19 +27,15 @@ fn main() -> Result<(), Error> {
     for file in files {
         if file == "-" {
             let stdin = stdin();
-            let handle = stdin.lock();
-            for line in handle.lines() {
+            for line in stdin.lock().lines() {
                 println!("{}", &line.unwrap());
             }
         } else if dashu {
-            let f = File::open(file)?;
-            let reader = BufReader::new(f);
-            for line in reader.lines() {
+            for line in BufReader::new(File::open(file)?).lines() {
                 println!("{}", &line.unwrap());
             }
         } else {
-            let s = read_to_string(file)?;
-            print!("{}", s);
+            print!("{}", read_to_string(file)?);
         }
     }
     Ok(())
